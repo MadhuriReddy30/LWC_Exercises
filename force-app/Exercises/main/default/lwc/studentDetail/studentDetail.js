@@ -10,7 +10,7 @@ import FIELD_Phone from '@salesforce/schema/Contact.Phone';
 import { NavigationMixin } from 'lightning/navigation';
 const fields = [FIELD_Name, FIELD_Description, FIELD_Email, FIELD_Phone];
 
-export default class StudentDetail extends LightningElement {
+export default class StudentDetail extends NavigationMixin(LightningElement) {
 
   studentId;
   subscription;
