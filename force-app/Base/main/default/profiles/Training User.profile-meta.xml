@@ -55,6 +55,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudentBrowser</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudentBrowserForm</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TripReportsData</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -312,6 +320,10 @@
     <tabVisibilities>
         <tab>Course__c</tab>
         <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Sales_app</tab>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>TripReport__c</tab>
