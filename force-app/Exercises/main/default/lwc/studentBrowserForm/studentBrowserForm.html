@@ -24,10 +24,14 @@
 						variant="label-hidden"
 						value={selectedDeliveryId}
 						placeholder="Select a delivery"
-            options={deliveries}
-            onchange={onDeliveryChange}
+						options={deliveries}
+						onchange={onDeliveryChange}
 					>
 					</lightning-combobox>
+				</lightning-layout-item>
+				<!-- Add New Delivery button (enabled if instructor selected)-->
+				<lightning-layout-item padding="around-small">
+					<lightning-button variant="brand" disabled={isButtonDisabled} label="Add New Delivery" onclick={onAddNewDelivery}> </lightning-button>
 				</lightning-layout-item>
 			</lightning-layout>
 		</lightning-card>
