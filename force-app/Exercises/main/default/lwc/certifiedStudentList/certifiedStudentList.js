@@ -6,6 +6,7 @@ export default class CertifiedStudentList extends LightningElement {
   @api certificationId = 0;
   @api certificationName = '';
   @track certifiedStudents;
+  btnGroupDisabled = true;
   error;
 
   @wire(getCertifiedStudents, {
@@ -52,6 +53,13 @@ export default class CertifiedStudentList extends LightningElement {
       fieldName: 'phone',
       type: 'phone'
     }
+
+    
   ];
+
+  onRowSelection(event) {
+    let numSelected = event.detail.selectedRows.length;
+    this.btnGroupDisabled = (numSelected === 0);
+    }
 
 }
