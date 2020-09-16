@@ -1,6 +1,9 @@
 import { LightningElement, track, wire, api } from 'lwc';
 import getCertifiedStudents from
   '@salesforce/apex/CertifiedStudentList.getCertifiedStudents';
+import deleteStudentCertification from
+  '@salesforce/apex/CertifiedStudentList.deleteStudentCertification';
+import { refreshApex } from '@salesforce/apex';
 
 export default class CertifiedStudentList extends LightningElement {
   @api certificationId = 0;
@@ -8,12 +11,14 @@ export default class CertifiedStudentList extends LightningElement {
   @track certifiedStudents;
   btnGroupDisabled = true;
   error;
+  _wiredStudentResult;
 
   @wire(getCertifiedStudents, {
     certificationId:
       '$certificationId'
   })
   wired_getCertifiedStudents(result) {
+    this._wiredStudentResult = result;
 
     this.certifiedStudents = [];
     if (result.data) {
@@ -54,12 +59,52 @@ export default class CertifiedStudentList extends LightningElement {
       type: 'phone'
     }
 
-    
+
   ];
 
   onRowSelection(event) {
     let numSelected = event.detail.selectedRows.length;
     this.btnGroupDisabled = (numSelected === 0);
+  }
+
+  getSelectedIDs() {
+    let datatable =
+      this.template.querySelector('lightning-datatable');
+    let selectedRows = datatable.getSelectedRows();
+    let ids = [];
+    selectedRows.forEach(r => {
+      ids.push(r.certificationHeldId)
+    });
+    return ids;
+  }
+
+  onCertActions(event) {
+    const btnClicked = event.target.getAttribute('data-btn-id');
+    switch (btnClicked) {
+      case 'btnEmail':
+        break;
+      case 'btnSendCert':
+        break;
+      case 'btnDelete':
+        this.onDelete();
+        break;
+      default:
+        break;
     }
+  }
+
+  onDelete() {
+    let certificationIds = this.getSelectedIDs();
+    deleteStudentCertification({ certificationIds })
+      .then(
+        () => {
+          refreshApex(this._wiredStudentResult);
+        })
+      .catch(error => {
+        this.error = error;
+      });
+  }
+
+
 
 }
