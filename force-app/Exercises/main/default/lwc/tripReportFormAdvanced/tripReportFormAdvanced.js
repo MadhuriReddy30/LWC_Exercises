@@ -141,8 +141,10 @@ export default class TripReportFormAdvanced extends LightningElement {
 
     if (!this.recordId) {
 
-      const recordInput = { fields:fieldsToSave, apiName:
-        OBJECT_TRIP_REPORT.objectApiName};
+      const recordInput = {
+        fields: fieldsToSave, apiName:
+          OBJECT_TRIP_REPORT.objectApiName
+      };
 
       createRecord(recordInput)
         .then(tripReport => {
@@ -156,7 +158,7 @@ export default class TripReportFormAdvanced extends LightningElement {
     } else {
 
       fieldsToSave[FIELD_ID.fieldApiName] = this.recordId;
-      
+
       const recordInput = { fields: fieldsToSave }
       updateRecord(recordInput)
         .then(() => {
@@ -167,6 +169,24 @@ export default class TripReportFormAdvanced extends LightningElement {
         });
     }
 
+  }
+
+  validateFields() {
+
+    let field = null;
+    let fields = this.template.querySelectorAll('.validateMe');
+    let result = true;
+    for (let i = 0; i < fields.length; i++) {
+      field = fields[i];
+      result = field.checkValidity();
+      if (!result) break;
+    }
+    return result;
+  }
+
+  saveButtonDisabled = true;
+  onBlur() {
+    this.saveButtonDisabled = !this.validateFields();
   }
 
 }
