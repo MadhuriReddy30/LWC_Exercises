@@ -67,7 +67,7 @@ export default class ResponsiveDatatable extends LightningElement {
 		target.classList.add("slds-is-selected");
 		this._selectedRow = target;
 	}
-  @api
+	@api
 	get rowData() {
 		return this.rows;
 	}
@@ -75,6 +75,15 @@ export default class ResponsiveDatatable extends LightningElement {
 	set rowData(value) {
 		if (typeof value !== "undefined") {
 			this.rows = this.reformatRows(value);
+		}
+	}
+
+	@api setSelectedRecord(recordId) {
+
+		let mySelector = `tr[data-pk='${recordId}']`;
+		let selectedRow = this.template.querySelector(mySelector);
+		if (selectedRow) {
+			this.highlightSelectedRow(selectedRow);
 		}
 	}
 
