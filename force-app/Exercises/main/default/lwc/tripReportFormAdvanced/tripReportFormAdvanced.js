@@ -151,6 +151,7 @@ export default class TripReportFormAdvanced extends LightningElement {
           this.recordId = tripReport.id;
 
           Utils.showToast(this, 'Success', 'Trip Report Created', 'success');
+          this.returnToBrowseMode();
         })
         .catch(error => {
           Utils.showToast(this, 'Error creating record', error.body.message, 'error');
@@ -163,6 +164,7 @@ export default class TripReportFormAdvanced extends LightningElement {
       updateRecord(recordInput)
         .then(() => {
           Utils.showToast(this, 'Success', 'Trip report updated', 'success');
+          this.returnToBrowseMode();
         })
         .catch(error => {
           Utils.showToast(this, 'Error updating record', error.body.message, 'error');
@@ -187,6 +189,15 @@ export default class TripReportFormAdvanced extends LightningElement {
   saveButtonDisabled = true;
   onBlur() {
     this.saveButtonDisabled = !this.validateFields();
+  }
+
+  returnToBrowseMode() {
+    const evt = new CustomEvent('tripreportmodechange', {
+      detail: {
+        mode: "browse"
+      },
+    });
+    this.dispatchEvent(evt);
   }
 
 }
