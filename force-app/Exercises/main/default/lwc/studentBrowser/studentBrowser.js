@@ -6,12 +6,22 @@ import { NavigationMixin } from 'lightning/navigation';
 export default class StudentBrowser extends NavigationMixin(LightningElement) {
 
 
+  @track students = [];
 
   @wire(getStudents, {
     instructorId: '$selectedInstructorId',
     courseDeliveryId: '$selectedDeliveryId'
   })
-  students;
+  wired_getStudents(result) {
+
+    if (result.data) {
+      this.students = result;
+    } else if (result.error) {
+      this.error = result.error;
+    }
+    this.dispatchEvent(new CustomEvent('doneloading',
+      { bubbles: true, composed: true }));
+  }
 
   cols = [
     {
@@ -41,6 +51,10 @@ export default class StudentBrowser extends NavigationMixin(LightningElement) {
   handleFilterChange(event) {
     this.selectedDeliveryId = event.detail.deliveryId;
     this.selectedInstructorId = event.detail.instructorId;
+    this.dispatchEvent(new CustomEvent('loading', {
+      bubbles: true,
+      composed: true
+    }));
   }
 
   @wire(MessageContext) messageContext;
